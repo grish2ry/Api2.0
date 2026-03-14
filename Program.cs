@@ -25,11 +25,6 @@ public class Program
         var license = new License();
         var update = new Update();
 
-        
-
-
-
-
         var showSplashTask = splash.ShowSplash();
         var requestLicenseTask = showSplashTask.ContinueWith(
             _ => license.RequestLicense(),
@@ -45,9 +40,7 @@ public class Program
 
         );
 
-
         var awaitLicenseOrError = Task.WhenAny(requestLicenseTask, licenseErrorHandler);
-
 
         var setupMenuTask = awaitLicenseOrError.ContinueWith(
             async t =>
@@ -86,11 +79,7 @@ public class Program
             TaskContinuationOptions.OnlyOnFaulted
         );
 
-
-
         var awaitUpdateOrError = Task.WhenAny(dounloadErrorHandler, dounloadUpdateTask);
-
-
         var finalTask = Task.WhenAll(awaitUpdateOrError, setupMenuTask);
 
         var taskMenuWelcome = finalTask.ContinueWith(
@@ -106,7 +95,6 @@ public class Program
                     await taskService.tcsU.Task;
                     Console.WriteLine("Error with update fixed, going to next page");
                 }
-
                 menu.Welcome();
             },
             TaskContinuationOptions.OnlyOnRanToCompletion
@@ -118,21 +106,19 @@ public class Program
             TaskContinuationOptions.OnlyOnRanToCompletion
         );
 
-        app.MapGet("/", async() => 
-        {
-
-            await showSplashTask;
-
-            if (showSplashTask.IsCompleted)
-            {
-                Console.WriteLine("Вся цепочка выполнена!");
-            }
-
-        }
+        var t = hideSplashTask.ContinueWith(
+            async _=> {
+                await Task.Delay(5000);
+                Console.WriteLine("Вся цепочка выполнена успешно");
+            },
+            TaskContinuationOptions.OnlyOnRanToCompletion
         );
 
-
-
+        app.MapGet("/", async() => 
+        {
+            await showSplashTask;
+        }
+        );
         app.Run();
     }
 }

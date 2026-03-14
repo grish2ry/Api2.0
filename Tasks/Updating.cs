@@ -17,7 +17,7 @@ public class Update
 
         if (random.Next() % 2 == 0)
         {
-            throw new Exception("aнлак2");
+            throw new Exception("Ex with update");
         }
         return Task.CompletedTask;
     }

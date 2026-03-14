@@ -9,7 +9,7 @@ public class License
         Console.WriteLine("Requesting license...");
         Console.WriteLine("License granted");
         if(random.Next() % 2 == 0)
-            throw new TaskCanceledException("анлак1");
+            throw new TaskCanceledException("Ex with license");
         return Task.CompletedTask;
     }
 
