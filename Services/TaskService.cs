@@ -1,19 +1,38 @@
-namespace Tasks.TaskServiceUtil;
+namespace Services.TaskServiceUtil;
 
 public class TaskService
 {
-    public TaskCompletionSource<bool> tcsL {get; private set;}
-    public TaskCompletionSource<bool> tcsU {get; private set;}
-
-    public TaskService(TaskCompletionSource<bool> tcsL, TaskCompletionSource<bool> tcsU)
+    public List<Task> tasks;
+    public TaskBuilder taskBuilder;
+    public TaskService()
     {
-        this.tcsL = tcsL;
-        this.tcsU = tcsU;
+
+        tasks = new List<Task>();
+        taskBuilder = new TaskBuilder();
     }
 
-    public void SetU() => tcsU.TrySetResult(true);
-    
-    public void SetL() => tcsL.TrySetResult(true);
-    
+    public void AddParallel(ITask task)
+    {
+        var newTask = task.GetTask();
+        tasks.Add(newTask);
+    }
+    public async Task AddConsistent(ITask task)
+    {
+        tasks.Add(task.GetTask());
+        var newT = taskBuilder.Build(tasks);
+        var wrap = ExeptionWrapper.Safecall(newT);
+        await wrap;
+        tasks.Clear();
+        tasks.Add(wrap);
+    }
+    public void Clear()
+    {
+        tasks.Clear();
+    }   
+    public async Task ExecuteAll()
+    {
+        var wrap = ExeptionWrapper.Safecall(Task.WhenAll(tasks));
+        await wrap;
+    }
 }
 

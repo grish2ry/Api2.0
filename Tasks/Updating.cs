@@ -1,24 +1,11 @@
 namespace Tasks.UpdateUtil;
-
-public class Update
+public class UpdateCheck : ITask
 {
-    private Random random = new Random();
-
-    public Task CheckForUpdate()
+    public Task GetTask()
     {
-        Console.WriteLine("Checking for updates...");
-        Console.WriteLine("Dota 3 beta is available");
-        return Task.CompletedTask;
-        
-    }
-    public Task DownloadUpdate()
-    {
-        Console.WriteLine("Downloading update...");
-
-        if (random.Next() % 2 == 0)
+        return Task.Run( ()=>
         {
-            throw new Exception("Ex with update");
-        }
-        return Task.CompletedTask;
+            Console.WriteLine("Checking updates...");
+        });
     }
 }

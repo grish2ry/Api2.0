@@ -1,16 +1,15 @@
 namespace Tasks.LicenseUtil;
-
-public class License
+public class License : ITask
 {
     private Random random = new Random();
 
-    public Task RequestLicense()
+      public Task GetTask()
     {
-        Console.WriteLine("Requesting license...");
-        Console.WriteLine("License granted");
-        if(random.Next() % 2 == 0)
-            throw new TaskCanceledException("Ex with license");
-        return Task.CompletedTask;
+        return Task.Run(() =>
+        {
+            if(random.Next()%2 == 0)
+                throw new Exception("license ex");
+            Console.WriteLine("Checking license.....");
+        });
     }
-
 }

@@ -1,15 +1,12 @@
-namespace Tasks.SplashUtil;
-
-public class Splash{
-    public Task ShowSplash()
+namespace Tasks.ShowSplashUtil;
+public class ShowSplash : ITask
+{
+    private Task t;
+    public Task GetTask()
     {
-        Console.WriteLine("============SOME HEADER===========");
-        return Task.CompletedTask;
-        
-    }
-    public Task HideSplash()
-    {
-        Console.WriteLine("============SOME FOOTER===========");
-        return Task.CompletedTask;
+        return Task.Run(() =>
+        {
+            Console.WriteLine("=========some header=========");
+        });
     }
 }
