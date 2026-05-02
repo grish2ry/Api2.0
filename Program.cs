@@ -2,7 +2,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        \\Пример работы (написано ИИ)
+        //Пример работы (написано ИИ)
         var taskService = new TaskService();
         
         // Сценарий 1: Загрузка с обработкой ошибок
